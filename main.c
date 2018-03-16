@@ -33,12 +33,6 @@ int pixel_igual(Pixel p1, Pixel p2) {
 
 
 Image escala_de_cinza(Image img) {
-    /*for (unsigned int i = 0; i < img.h; ++i) {
-        for (unsigned int j = 0; j < img.w; ++j) {
-            print("%u", img.pixel[i][j][0] + img.pixel[i][j][1] + img.pixel[i][j][2]);
-        }
-    }*/
-
     for (unsigned int i = 0; i < img.h; ++i) {
         for (unsigned int j = 0; j < img.w; ++j) {
             int media = img.pixel[i][j][0] +
@@ -68,7 +62,7 @@ void blur(unsigned int h, unsigned short int pixel[512][512][3], int T, unsigned
                     media.b += pixel[x][y][2];
                 }
             }
-
+            
             // printf("%u", media.r)
             media.r /= T * T;
             media.g /= T * T;
@@ -83,7 +77,7 @@ void blur(unsigned int h, unsigned short int pixel[512][512][3], int T, unsigned
 
 Image rotacionar90direita(Image img) {
     Image rotacionada;
-
+    
     rotacionada.w = img.h;
     rotacionada.h = img.w;
 
@@ -94,7 +88,6 @@ Image rotacionar90direita(Image img) {
             rotacionada.pixel[i][j][2] = img.pixel[x][y][2];
         }
     }
-
     return rotacionada;
 }
 
@@ -122,10 +115,8 @@ Image cortar_imagem(Image img, int x, int y, int w, int h) {
             cortada.pixel[i][j][2] = img.pixel[i + y][j + x][2];
         }
     }
-
     return cortada;
 }
-
 
 int main() {
     Image img;
@@ -144,10 +135,8 @@ int main() {
             scanf("%hu %hu %hu", &img.pixel[i][j][0],
                                  &img.pixel[i][j][1],
                                  &img.pixel[i][j][2]);
-
         }
     }
-
     int n_opcoes;
     scanf("%d", &n_opcoes);
 
@@ -252,14 +241,12 @@ int main() {
     printf("P3\n");
     // print width height and color of image
     printf("%u %u\n255\n", img.w, img.h);
-
     // print pixels of image
     for (unsigned int i = 0; i < img.h; ++i) {
         for (unsigned int j = 0; j < img.w; ++j) {
             printf("%hu %hu %hu ", img.pixel[i][j][0],
                                    img.pixel[i][j][1],
                                    img.pixel[i][j][2]);
-
         }
         printf("\n");
     }
