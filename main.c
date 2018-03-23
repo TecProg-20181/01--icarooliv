@@ -42,8 +42,6 @@ void blur(Image img, int size) {
                     media.b += img.pixel[x][y][2];
                 }
             }
-        
-            // printf("%u", media.r)
             media.r /= size * size;
             media.g /= size * size;
             media.b /= size * size;
@@ -127,6 +125,40 @@ return img;
 
 }
 
+Image invert (Image img){
+        int horizontal = 0;
+        scanf("%d", &horizontal);
+
+        int w = img.width;
+        int h = img.height;
+
+        if (horizontal == 1) w /= 2;
+        else h /= 2;
+
+        for (int i2 = 0; i2 < h; ++i2) {
+            for (int j = 0; j < w; ++j) {
+            int x = i2, y = j;
+
+            if (horizontal == 1) y = img.width - 1 - j;
+            else x = img.height - 1 - i2;
+
+            Pixel aux1;
+            aux1.r = img.pixel[i2][j][0];
+            aux1.g = img.pixel[i2][j][1];
+            aux1.b = img.pixel[i2][j][2];
+
+            img.pixel[i2][j][0] = img.pixel[x][y][0];
+            img.pixel[i2][j][1] = img.pixel[x][y][1];
+            img.pixel[i2][j][2] = img.pixel[x][y][2];
+
+            img.pixel[x][y][0] = aux1.r;
+            img.pixel[x][y][1] = aux1.g;
+            img.pixel[x][y][2] = aux1.b;
+            }
+        }
+return img;
+}
+
 int main() {
     Image img;
 
@@ -178,37 +210,10 @@ int main() {
                 break;
             }
             case 5: { // Espelhamento
-                int horizontal = 0;
-                scanf("%d", &horizontal);
-
-                int w = img.width, h = img.height;
-
-                if (horizontal == 1) w /= 2;
-                else h /= 2;
-
-                for (int i2 = 0; i2 < h; ++i2) {
-                    for (int j = 0; j < w; ++j) {
-                        int x = i2, y = j;
-
-                        if (horizontal == 1) y = img.width - 1 - j;
-                        else x = img.height - 1 - i2;
-
-                        Pixel aux1;
-                        aux1.r = img.pixel[i2][j][0];
-                        aux1.g = img.pixel[i2][j][1];
-                        aux1.b = img.pixel[i2][j][2];
-
-                        img.pixel[i2][j][0] = img.pixel[x][y][0];
-                        img.pixel[i2][j][1] = img.pixel[x][y][1];
-                        img.pixel[i2][j][2] = img.pixel[x][y][2];
-
-                        img.pixel[x][y][0] = aux1.r;
-                        img.pixel[x][y][1] = aux1.g;
-                        img.pixel[x][y][2] = aux1.b;
-                    }
-                }
+                image = invert(img);
                 break;
             }
+            
             case 6: { // Inversao de Cores
                 inverter_cores(img.pixel, img.width, img.height);
                 break;
