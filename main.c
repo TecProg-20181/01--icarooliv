@@ -28,31 +28,32 @@ Image grayscale(Image img) {
     return img;
 }
 
-void blur(Image img, int size) {
-    for (unsigned int i = 0; i < img.height; ++i) {
-        for (unsigned int j = 0; j < img.width; ++j) {
+Image blur(unsigned int height, unsigned short int pixel [512][512][3], unsigned int width) {
+    int size = 0;
+    scanf("%d", &size);
+
+    for (unsigned int i = 0; i < height; ++i) {
+        for (unsigned int j = 0; j < width; ++j) {
             Pixel media = {0, 0, 0};
 
-            int min_h = (img.height - 1 > i + size/2) ? i + size/2 : img.height - 1;
-            int min_w = (img.width - 1 > j + size/2) ? j + size/2 : img.width - 1;
+            int min_h = (height - 1 > i + size/2) ? i + size/2 : height - 1;
+            int min_w = (width - 1 > j + size/2) ? j + size/2 : width - 1;
             for(int x = (0 > i - size/2 ? 0 : i - size/2); x <= min_h; ++x) {
                 for(int y = (0 > j - size/2 ? 0 : j - size/2); y <= min_w; ++y) {
-                    media.r += img.pixel[x][y][0];
-                    media.g += img.pixel[x][y][1];
-                    media.b += img.pixel[x][y][2];
+                    media.r += pixel[x][y][0];
+                    media.g += pixel[x][y][1];
+                    media.b += pixel[x][y][2];
                 }
             }
             media.r /= size * size;
             media.g /= size * size;
             media.b /= size * size;
 
-            img.pixel[i][j][0] = media.r;
-            img.pixel[i][j][1] = media.g;
-            img.pixel[i][j][2] = media.b;
+            pixel[i][j][0] = media.r;
+            pixel[i][j][1] = media.g;
+            pixel[i][j][2] = media.b;
         }
     }
-    
-    return img;
 }
 
 Image rotacionar90direita(Image img) {
@@ -195,9 +196,7 @@ int main() {
                 break;
             }
             case 3: { // Blur
-                int tamanho = 0;
-                scanf("%d", &tamanho);
-                blur(img, tamanho);
+                blur(img.height, img.pixel, img.width);    
                 break;
             }
             case 4: { // Rotacao
@@ -210,10 +209,10 @@ int main() {
                 break;
             }
             case 5: { // Espelhamento
-                image = invert(img);
+                img = invert(img);
                 break;
             }
-            
+
             case 6: { // Inversao de Cores
                 inverter_cores(img.pixel, img.width, img.height);
                 break;
@@ -227,7 +226,6 @@ int main() {
                 break;
             }
         }
-
     }
 
     // print type of image
